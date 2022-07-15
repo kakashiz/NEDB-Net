@@ -19,18 +19,7 @@ def load_pre_weights(model, filepath):
   if os.path.exists(filepath):
     pretrained_dict = torch.load(filepath)
     model_dict = model.state_dict()
-    if filepath == "./ddrnet.pth":
-      del pretrained_dict['model.final_layer.conv2.weight']
-      del pretrained_dict['model.final_layer.conv2.bias']
-      del pretrained_dict['model.seghead_extra.conv2.weight']
-      del pretrained_dict['model.seghead_extra.conv2.bias']
-
-      spp_string = [k for k, v in pretrained_dict.items() if k.startswith('model.spp')]
-      for s in spp_string:
-        del pretrained_dict[s]
-
-      pretrained_dict = {k.replace('model.', 'module.'): v for k, v in pretrained_dict.items() if k.startswith('model.')}
-    elif filepath.startswith("./resnet"):
+    if "resnet" in filepath:
       filtered_dict = collections.OrderedDict()
       del pretrained_dict['fc.weight']
       del pretrained_dict['fc.bias']

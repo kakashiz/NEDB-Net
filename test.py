@@ -9,6 +9,7 @@ if __name__ == '__main__':
   Config.align_corners = False
   model = net.get_seg_model()
   model = torch.nn.DataParallel(model, device_ids=[0]).cuda()
+  function.load_pre_weights(model, "weights.pth")
 
   image_path = ""
   image = cv2.imread(image_path)
